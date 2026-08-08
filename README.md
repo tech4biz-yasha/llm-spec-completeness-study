@@ -1,8 +1,8 @@
 # Specification Completeness and LLM-Generated Backend Code
 ### Evidence pack for a controlled six-run study
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.XXXXXXX.svg)](https://doi.org/10.5281/zenodo.XXXXXXX)
-**Paper:** *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code* — Khandelwal, 2026
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21853680.svg)](https://doi.org/10.5281/zenodo.21853680)
+**Paper:** *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code* — Yasha Khandelwal, 2026
 
 ---
 
@@ -77,7 +77,7 @@ This study underpins **CodeNuk**, the specification-to-build-kit product by **Te
 
 If you use this dataset, cite:
 
-> Khandelwal, Y. (2026). *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code: A Controlled Six-Run Study.* CodeNuk Research, Tech4Biz Solutions. Evidence pack: doi:10.5281/zenodo.XXXXXXX
+> Yasha Khandelwal (2026). *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code: A Controlled Six-Run Study.* CodeNuk Research, Tech4Biz Solutions. Evidence pack: doi:10.5281/zenodo.21853680
 
 A machine-readable citation is in `CITATION.cff`; GitHub's "Cite this repository" button uses it.
 
