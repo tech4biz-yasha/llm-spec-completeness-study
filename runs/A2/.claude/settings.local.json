@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3.12 -m venv .venv)",
+      "Bash(.venv/bin/pip install *)",
+      "Bash(/usr/local/opt/postgresql@16/bin/pg_isready -h localhost -p 5432)",
+      "Read(//usr/local/var/**)",
+      "Bash(.venv/bin/python -c \"import fastapi, sqlalchemy, asyncpg, alembic; print\\(fastapi.__version__, sqlalchemy.__version__\\)\")",
+      "Bash(.venv/bin/python -c ' *)",
+      "Bash(sed -i '' 's/assert_move_out_date/assess_move_out_date/g' app/services/exit_workflow.py)",
+      "Bash(.venv/bin/python -)",
+      "Bash(sed -i '' 's/^file_template = .*/file_template = %%\\(rev\\)s_%%\\(slug\\)s/' alembic.ini)"
+    ]
+  }
+}

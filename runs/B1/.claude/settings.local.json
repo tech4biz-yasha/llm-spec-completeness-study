@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pg_isready)",
+      "Bash(python3 -c \"import fastapi, sqlalchemy, pydantic; print\\(fastapi.__version__, sqlalchemy.__version__, pydantic.__version__\\)\")",
+      "Read(//Users/yasha/**)",
+      "Bash(brew list *)",
+      "Bash(python3 -c ' *)",
+      "Bash(psql -l)",
+      "Bash(python3 *)"
+    ]
+  }
+}

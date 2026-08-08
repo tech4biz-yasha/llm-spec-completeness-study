@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import fastapi, sqlalchemy, pydantic, yaml; print\\(fastapi.__version__, sqlalchemy.__version__, pydantic.__version__\\)\")",
+      "Bash(python3 -c \"import pytest, asyncpg, httpx; print\\('test deps ok'\\)\")",
+      "Bash(python3 -)",
+      "Bash(python3 -c \"import pydantic_settings, asyncpg, aiokafka\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 -m pytest tests/unit -q)",
+      "Bash(python3 -m pytest tests/acceptance -q -x)",
+      "Bash(EXIT_WORKFLOW_TEST_DATABASE_URL=postgresql+asyncpg://localhost/exit_workflow_test python3 -m pytest tests/acceptance -q -x -rs)",
+      "Bash(EXIT_WORKFLOW_TEST_DATABASE_URL=postgresql+asyncpg://localhost/exit_workflow_test python3 -m pytest tests/acceptance -q -x)",
+      "Bash(EXIT_WORKFLOW_TEST_DATABASE_URL=postgresql+asyncpg://localhost/exit_workflow_test python3 -m pytest tests/acceptance -q)",
+      "Bash(echo \"marker scan done \\(exit $?\\)\")",
+      "Bash(EXIT_WORKFLOW_TEST_DATABASE_URL=postgresql+asyncpg://localhost/exit_workflow_test python3 -m pytest -q)",
+      "Bash(python3 -m pyflakes exit_workflow tests)",
+      "Bash(python3 -m flake8 --select=F --max-line-length=120 exit_workflow tests)",
+      "Bash(pip install *)",
+      "Bash(echo \"pyflakes exit=$?\")"
+    ]
+  }
+}

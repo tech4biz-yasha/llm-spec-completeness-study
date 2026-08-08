@@ -1,0 +1,22 @@
+exit_workflow:
+  initial: INITIATED
+  states: [INITIATED, DOCS_SUBMITTED, OWNER_NOTIFIED, INSPECTION_SCHEDULED,
+           INSPECTION_DONE, DAMAGE_CONFIRMED, REFUND_PROCESSED, NOC_ISSUED,
+           COMPLETE, STALLED]
+  transitions:
+    - {from: INITIATED, to: DOCS_SUBMITTED, actor: tenant, requires: [move_out_date, reason, documents], rule: EXIT-02}
+    - {from: DOCS_SUBMITTED, to: OWNER_NOTIFIED, actor: system, side_effect: notify_owner, rule: EXIT-04}
+    - {from: OWNER_NOTIFIED, to: INSPECTION_SCHEDULED, actor: owner, rule: EXIT-05}
+    - {from: INSPECTION_SCHEDULED, to: INSPECTION_DONE, actor: inspector}
+    - {from: INSPECTION_DONE, to: DAMAGE_CONFIRMED, actor: owner, rule: EXIT-06}
+    - {from: DAMAGE_CONFIRMED, to: REFUND_PROCESSED, actor: system, rule: EXIT-07}
+    - {from: REFUND_PROCESSED, to: NOC_ISSUED, actor: system, rule: EXIT-08}
+    - {from: NOC_ISSUED, to: COMPLETE, actor: system, side_effect: release_exit_lock, rule: EXIT-09}
+    - {from: OWNER_NOTIFIED, to: STALLED, actor: system, when: 30_days_past_move_out, rule: EXIT-05}
+    - {from: INSPECTION_SCHEDULED, to: STALLED, actor: system, when: 30_days_past_move_out, rule: EXIT-05}
+  forbidden:
+    - INITIATED -> COMPLETE
+    - DOCS_SUBMITTED -> REFUND_PROCESSED
+    - INSPECTION_DONE -> REFUND_PROCESSED   # owner confirmation is mandatory, EXIT-06
+    - any -> NOC_ISSUED without REFUND_PROCESSED   # T13 order, EXIT-08
+    - STALLED -> COMPLETE

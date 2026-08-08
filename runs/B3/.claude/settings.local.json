@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3.12 --version)",
+      "Bash(python3 -c \"import fastapi,sqlalchemy,pydantic;print\\('fastapi',fastapi.__version__,'sa',sqlalchemy.__version__,'pyd',pydantic.__version__\\)\")",
+      "Bash(pg_isready)",
+      "Bash(psql -l)",
+      "Bash(python3 -c \"import psycopg;print\\('psycopg3', psycopg.__version__\\)\")",
+      "Bash(python3 -c \"import psycopg2;print\\('psycopg2 ok'\\)\")",
+      "Bash(python3 -c \"import pytest,httpx,alembic;print\\('pytest/httpx/alembic ok'\\)\")",
+      "Bash(psql *)",
+      "Bash(python3 *)"
+    ]
+  }
+}

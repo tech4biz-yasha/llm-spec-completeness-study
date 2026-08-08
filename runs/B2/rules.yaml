@@ -1,0 +1,73 @@
+# Exit workflow rules. Compiled from the decision sheet. Each carries its decider.
+
+- id: EXIT-01
+  rule: >
+    A tenant may initiate exit only on a contract with status ACTIVE, and only one
+    exit workflow may exist per contract at any time. A second initiation attempt
+    returns 409 EXIT_ALREADY_IN_PROGRESS with the existing workflow ID.
+  decided_by: Sudhish, session 2
+
+- id: EXIT-02
+  rule: >
+    Initiation requires move_out_date (today or later), a reason from the reference
+    list, and at least one document. Workflow ID format EX-YYYYMMDD-NNNNN, server
+    assigned, sequence from PostgreSQL.
+  decided_by: Sudhish, session 2
+
+- id: EXIT-03
+  rule: >
+    On initiation, property.exitLock is set true IN THE SAME TRANSACTION as the
+    workflow insert. The lock blocks new contracts on the property (BR-1) and is
+    released only by workflow COMPLETE.
+  decided_by: Sudhish, session 3
+
+- id: EXIT-04
+  rule: >
+    Owner notification is emitted AFTER the initiation transaction commits. If
+    dispatch fails, the workflow does NOT roll back; the event queues for retry
+    with exponential backoff, 5 attempts, then dead-letter + admin alert.
+  decided_by: Manish Sukhani, session 2
+
+- id: EXIT-05
+  rule: >
+    Inspection must be scheduled within 30 days of move_out_date. Past that,
+    the workflow enters STALLED and an admin task is created. It does not
+    auto-cancel.
+  decided_by: Manish Sukhani, session 3
+
+- id: EXIT-06
+  rule: >
+    Damage assessment is entered by the inspection agency with photos, then
+    confirmed by the owner. Owner confirmation is required before settlement.
+    Owner may dispute once; a dispute routes to admin review.
+  decided_by: Manish Sukhani, session 3
+
+- id: EXIT-07
+  rule: >
+    refund = max(security_deposit - confirmed_damage, 0), Decimal, round half-up
+    to 2 dp. The damage-exceeds-deposit case is OPEN (risks.md#R8): when
+    confirmed_damage > security_deposit, raise SpecUnresolved. Do not cap-and-
+    write-off, do not create a debt record. BLOCKED until R8 is decided.
+  decided_by: refund formula Sudhish s3; excess case UNRESOLVED
+
+- id: EXIT-08
+  rule: >
+    Refund is issued as a payment transaction of type DEPOSIT_REFUND with an
+    idempotency key of the workflow ID. NOC is generated ONLY after the gateway
+    confirms SUCCEEDED. Order per T13: refund first, then NOC (the O16 wording
+    that implies NOC-after-inspection-before-refund was rejected in session;
+    see risks.md#R10, resolved in favour of T13).
+  decided_by: Sudhish, session 3
+
+- id: EXIT-09
+  rule: >
+    NOC is a PDF, stored in the UAE region bucket, immutable once issued,
+    linked on the workflow. COMPLETE is set and property.exitLock released in
+    ONE transaction after NOC issuance.
+  decided_by: Sudhish, session 3
+
+- id: EXIT-10
+  rule: >
+    Every state change writes an audit row: actor, timestamp, from, to,
+    metadata. Append-only, 7 year retention.
+  decided_by: A3, confirmed session 1

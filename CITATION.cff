@@ -1,0 +1,18 @@
+cff-version: 1.2.0
+message: "If you use this dataset, please cite it as below."
+title: "Specification Completeness and LLM-Generated Backend Code: Evidence Pack"
+authors:
+  - family-names: "Khandelwal"
+    given-names: "Yasha"
+    affiliation: "Tech4Biz Solutions, Bengaluru, India"
+version: "1.0"
+date-released: "2026-08-08"
+doi: "10.5281/zenodo.XXXXXXX"
+repository-code: "https://github.com/tech4biz-yasha/llm-spec-completeness-study"
+keywords:
+  - large language models
+  - code generation
+  - software requirements
+  - specification quality
+  - reproducibility
+license: "MIT AND CC-BY-4.0"

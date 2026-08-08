@@ -1,0 +1,29 @@
+/exit-workflows:
+  post:
+    authz: tenant, own active contract only
+    request: {contract_id, move_out_date, reason, documents[]}
+    responses:
+      201: {workflow_id, status: INITIATED}
+      409: EXIT_ALREADY_IN_PROGRESS
+      422: MOVE_OUT_DATE_IN_PAST | REASON_INVALID | DOCUMENTS_REQUIRED
+
+/exit-workflows/{id}/schedule-inspection:
+  post: {authz: owner, responses: {200: ok, 409: WRONG_STATE}}
+
+/exit-workflows/{id}/inspection-report:
+  post: {authz: inspection_agency, request: {damage_amount, photos[]}, responses: {200: ok}}
+
+/exit-workflows/{id}/confirm-damage:
+  post: {authz: owner, responses: {200: ok, 409: WRONG_STATE}}
+
+/exit-workflows/{id}/settle:
+  post:
+    authz: system|owner
+    responses:
+      200: {refund_amount, payment_id, status}
+      409: WRONG_STATE | PAYMENT_PENDING
+      501: SPEC_UNRESOLVED_R8    # damage > deposit
+
+_error_codes: [EXIT_ALREADY_IN_PROGRESS, EXIT_WORKFLOW_INCOMPLETE, WRONG_STATE,
+               MOVE_OUT_DATE_IN_PAST, REASON_INVALID, DOCUMENTS_REQUIRED,
+               PAYMENT_PENDING, SPEC_UNRESOLVED_R8]

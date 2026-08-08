@@ -1,0 +1,44 @@
+- id: X-001
+  case: duplicate_initiation
+  given: Tenant initiates exit twice on the same contract
+  then: 409 EXIT_ALREADY_IN_PROGRESS with existing workflow_id. Never a second workflow.
+  test: test_x001
+
+- id: X-002
+  case: notification_dispatch_fails
+  given: Owner notification fails after initiation commits
+  then: Workflow stays DOCS_SUBMITTED->OWNER_NOTIFIED path intact; event retries 5x
+        backoff then dead-letters. Workflow NEVER rolls back. (EXIT-04)
+  test: test_x002
+
+- id: X-003
+  case: damage_exceeds_deposit
+  given: confirmed_damage > security_deposit
+  then: raise SpecUnresolved("R8"). No refund, no NOC, workflow holds at
+        DAMAGE_CONFIRMED. (EXIT-07)
+  test: test_x003
+
+- id: X-004
+  case: gateway_pending_at_noc_time
+  given: Refund payment still PENDING, NOC generation attempted
+  then: Refuse. NOC only after SUCCEEDED. (EXIT-08)
+  test: test_x004
+
+- id: X-005
+  case: concurrent_settlement
+  given: Two settlement attempts race on one workflow
+  then: Idempotency key = workflow_id means one payment, second call returns existing.
+  test: test_x005
+
+- id: X-006
+  case: exit_lock_vs_new_contract
+  given: New contract attempted on the property mid-exit
+  then: 409 EXIT_WORKFLOW_INCOMPLETE. (EXIT-03, BR-1)
+  test: test_x006
+
+- id: X-007
+  case: timezone_of_dates
+  given: move_out_date entered by tenant in Dubai
+  then: Calendar day in Asia/Dubai, stored as date not datetime. Comparisons use
+        Dubai calendar. (D-001)
+  test: test_x007
