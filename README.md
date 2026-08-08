@@ -69,11 +69,15 @@ The source specification belongs to a real commercial project. All identifying n
 
 Three runs per condition demonstrates existence, not precise rates. The kit was authored with knowledge of this specification's gaps — that is the method under test. The invented-decisions scoring was assisted by the same model family that ran the study, verified by the operator; the full artifacts are published here precisely so anyone can re-score them. See the paper's Section 5 for the complete list.
 
+## About this research
+
+This study underpins **CodeNuk**, the specification-to-build-kit product by **Tech4Biz Solutions**. The paper and this dataset are method-level and product-neutral; the product applies the method at scale.
+
 ## Citing
 
-If you use this dataset, cite the paper and this archive:
+If you use this dataset, cite:
 
-> Khandelwal, Y. (2026). *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code: A Controlled Six-Run Study.* Evidence pack: doi:10.5281/zenodo.XXXXXXX
+> Khandelwal, Y. (2026). *Specification Completeness, Not Model Capability, Determines the Reliability of LLM-Generated Backend Code: A Controlled Six-Run Study.* CodeNuk Research, Tech4Biz Solutions. Evidence pack: doi:10.5281/zenodo.XXXXXXX
 
 A machine-readable citation is in `CITATION.cff`; GitHub's "Cite this repository" button uses it.
 
